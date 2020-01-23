@@ -1,0 +1,110 @@
+<div class="page-header">
+  <h3>
+    {{ site.title }}
+    {% if site.subtitle %}<br/><small>{{ site.subtitle }}</small>{% endif %}
+  </h3>
+</div>
+
+<p class="text-center">
+  <img width="200px" src="{{ site.url }}/img/logo-360x360.png" alt="{{ site.title }} logo">
+</p>
+
+<p>
+Matthias Bendel und Stefan Haslinger podcasten mit Gästen über ihre Erfahrungen beim Programmieren
+und Programmieren Lernen. Es geht nicht unmittelbar um Code, sondern um den Erfahrungsaustausch, die
+Motivation, auch bei Rückschlägen nicht aufzugeben und viele Tipps und Ressourcen.
+</p>
+
+<p class="text-center">
+  <script class="podlove-subscribe-button"
+          src="/subscribe-button/javascripts/app.js"
+          data-language="{{ site.language }}"
+          data-size="medium auto"
+          data-style="filled"
+          data-json-data="podcastData"
+          data-colors="#FC6E51;green;blue">
+  </script>
+  <script>
+    window.podcastData = {
+      "title": "{{ site['title']}}",
+      "subtitle": "{{ site['subtitle']}}",
+      "description": "{{ site['description']}}",
+      "cover": "{{ site.url }}/img/logo-360x360.png",
+      "feeds": [
+      {% for feed in site['episode_feed_formats'] %}
+        {
+          "type": "audio",
+          "format": "{{ feed }}",
+          "url": "{{ site['url']}}/episodes.{{ feed }}.rss",
+          "directory-url-itunes": "{{ site['itunes_url']}}",
+          "variant": "high"
+        },
+      {% endfor %}
+      ]
+    }
+  </script>
+</p>
+
+<hr/>
+
+<h4>RSS-Feeds</h4>
+
+<ol type="i">
+  {% for feed in site['episode_feed_formats'] %}
+    <li><a href="{{ site['url']}}/episodes.{{ feed }}.rss"><i class="fa fa-rss"></i> {{ feed }}-RSS-Feed</a></li>
+  {% endfor %}
+</ol>
+
+<h4>JSON-Feeds</h4>
+
+<ol type="i">
+  {% for jsonfeed in site['json_feed_formats'] %}
+    <li><a href="{{ site['url']}}/feed.{{ jsonfeed }}.json"><i class="fa fa-rss-square"></i> {{ jsonfeed }}-JSON-Feed</a></li>
+  {% endfor %}
+</ol>
+
+
+<h4>Feedback</h4>
+
+<p>Wir bitten Euch um Feedback per Mail an 
+  <a href="mailto:feedback@aua-uff-co.de">feedback@aua-uff-co.de</a>.
+  Bitte gebt jedenfalls an, ob wir Euer Feedback erwähnen dürfen, und falls ja, 
+  ob Euer Vorname genannt werden soll/darf.
+</p>
+
+
+<h4>Verzeichnisse</h4>
+
+<ol type="i">
+  <li>in Apple-<a href="https://itunes.apple.com/at/podcast/aua-uff-code!/id1099454611?l=de"><i class="fa fa-apple"></i> Itunes</a></li>
+  <li>als Torrents bei <a href="https://bitlove.org/aua-uff-code"><img src="/img/bitlove.png"/> Bitlove</a></li>
+  <li>in der Podcast-Suchmaschine <a href="https://fyyd.de/podcast/39419/0">Fyyd</a></li>
+  <li>bei <a href="https://gpodder.net/podcast/aua-uff-code"><img src="/img/gpodder.png" height="16" /> Gpodder.net</a></li>
+</ol>
+
+
+<h4>Credits</h4>
+
+<ul>
+  <li>Musik: <a href="http://www.bensound.com/royalty-free-music">Bensound</a></li>
+  <li>ausgeschiedene Gastgeberin: <a href="https://twitter.com/4nny_g">Anna Geiger</li>
+</ul>
+
+<h4>Lizenz</h4>
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+  <img alt="Creative Commons License" style="border-width:0" src="/img/88x31.png" /></a>
+
+
+<hr/>
+{% if site.flattr_uid %}
+  <span class="pull-left">{{ site | flattr_button }}</span>
+{% endif %}
+
+{% if site.twitter_nick %}
+  <a href="https://twitter.com/{{ site.twitter_nick }}"
+     class="button btn-primary btn-sm"
+     data-show-count="false">
+    <i class="fab fa-twitter"></i> Follow @{{ site.twitter_nick }}
+  </a>
+{% endif %}

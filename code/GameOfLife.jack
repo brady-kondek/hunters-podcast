@@ -1,0 +1,143 @@
+/**
+ * We are writing and reading to the screen memory directly.
+ * Looping over a line destroys the state of a row of cells for calculating the 
+ * next state of the next line. So we use an Array 'cache' to store the line for 
+ * calculating the next state correctly.
+ * max dimensions are the screen resolution of 256 rows by 512 columns
+ */
+
+class GameOfLife {
+  field int xmax, ymax, neighbors, generation;
+  field int doubleByte, positionInByte, rawData, bitValue, x, y, counter;
+  field Array cache, cacheNew; 
+
+  constructor GameOfLife new() {
+    let generation = 1;
+    let xmax = 80; // columns
+    let ymax = 25; // rows
+    let cache = Array.new(Math.divide(xmax, 16));
+    let cacheNew = Array.new(Math.divide(xmax, 16));
+    return this;
+  }
+
+  method int getCell(int x, int y, bool fromBuffer) {
+    if (fromBuffer = true) {
+      let doubleByte = Math.divide(x, 16);
+      let rawData = cache[doubleByte];
+    } else {
+      let doubleByte = 16384 + (32 * y) + Math.divide(x, 16);
+      let rawData = Memory.peek(doubleByte);
+    }
+    let positionInByte = x - (16 * Math.divide(x, 16));
+    return getBit(rawData, positionInByte);
+  }
+
+  method int getBit(int rawData, int positionInByte){
+    let counter = positionInByte;
+
+    let bitValue = 1;
+    while (counter > 0) {
+      let counter = counter - 1;
+      let bitValue = bitValue * 2;
+    }
+
+    if (rawData & bitValue = 0) {return 0;} else {return 1;}
+  }
+
+  method int neighbors(int x, int y) {
+    let neighbors = getCell(x - 1, y - 1, true) + getCell(x, y - 1, true);
+    let neighbors = neighbors + getCell(x + 1, y - 1, true); 
+    let neighbors = neighbors + getCell(x - 1, y, false); 
+    let neighbors = neighbors + getCell(x + 1, y, false);
+    let neighbors = neighbors + getCell(x - 1, y + 1, false);
+    let neighbors = neighbors + getCell(x, y + 1, false); 
+    let neighbors = neighbors + getCell(x + 1, y + 1, false);
+    return neighbors;
+  }
+
+  method bool survive(int x, int y) {
+    let neighbors = neighbors(x, y);
+
+    if (getCell(x, y, false) = true) {
+      do setCacheNew(x, 1);
+      return ((neighbors = 2) | (neighbors = 3));
+    } else {
+      do setCacheNew(x, 0);
+      return (neighbors = 3); 
+    }
+  }
+
+  method void setCacheNew(int x, int data) {
+    let doubleByte = Math.divide(x, 16);
+    let counter = x - (16 * doubleByte);
+    let bitValue = data;
+
+    while (counter > 0) {      
+      let bitValue = bitValue * 2;
+      let counter = counter - 1;
+    }
+
+    let cacheNew[doubleByte] = cacheNew[doubleByte] | bitValue;
+    return;
+  }
+
+  method void dispose() {
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  method void run() {
+    var char key;
+    var boolean exit;
+
+    let exit = false;
+
+    do Output.printString("Conway's");
+    do Output.println();
+    do Output.printString("Game of Life");
+    do Output.println();
+    do Output.printString("============");
+    do Output.println();
+
+    while (~exit) {
+      // waits for a key to be pressed.
+      while (key = 0) {
+        let key = Keyboard.keyPressed();
+        do calculateNextState();
+      }
+
+      // quitting the program by pressing 'q'
+      if (key = 81) { let exit = true; }
+    }
+    return;
+  }
+
+  method void copyCache() {
+    let x = 0;
+    while (x < (1 + Math.divide(xmax, 16))) {
+      let cache[x] = cacheNew[x];
+      let x = x + 1;
+    }
+    return; 
+  }
+
+  method void calculateNextState() {
+    do Output.moveCursor(22, 50);
+    do Output.printString("Generation ");
+    do Output.printInt(generation);
+    let generation = generation + 1;
+
+    let y = 1;
+    while (y < ymax) {
+      let x = 1;
+      while (x < xmax) {
+        do Screen.setColor(survive(x, y));
+        do Screen.drawPixel(x, y);
+        let x = x + 1;
+      }
+      do copyCache();
+      let y = y + 1;
+    }
+    return;
+  }
+}

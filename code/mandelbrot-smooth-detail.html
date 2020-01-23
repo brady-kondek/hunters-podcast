@@ -1,0 +1,31 @@
+<html>
+  <body>
+    <script src="https://netbeast.github.io/colorsys/browser.js"></script>
+    <canvas id="myCanvas" width="800" height="800"></canvas>
+    <script>
+      context = document.getElementById('myCanvas').getContext('2d');
+
+      for(x = 0; x < 800; x++) {
+        for(y = 0; y < 800; y++) {
+          i = zx = zy = 0
+          cx = -.64 + x / 4800 // cx = -2 + x / 200
+          cy = -.74 + y / 4800 // cy = -2 + y / 200
+          smoothcolor = Math.exp(-(zx * zx + zy * zy))
+
+          while(i < 255 && (zx * zx + zy * zy) < 4) {
+            xt = zx * zy
+            zx = zx * zx - zy * zy + cx
+            zy= 2 * xt + cy
+            smoothcolor = smoothcolor + Math.exp(-(zx * zx + zy * zy));
+            i++
+          }
+
+          context.beginPath()
+          context.rect(x, y, 1, 1)
+          context.fillStyle = colorsys.hsv_to_hex((0.95 + 10 * smoothcolor / 255) * 360, 60, 100)
+          context.fill()
+        }
+      }
+    </script>
+  </body>
+</html>
