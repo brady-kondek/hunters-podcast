@@ -1,0 +1,121 @@
+---
+layout: presentation
+permalink: /podcasting-meetup/
+title: Podcasting Meetup
+talk: 1
+---
+class: center, middle
+
+# Jekyll - Podcasting
+
+Talk beim Podcasting-Meetup am 8.4.2016
+
+@informatom
+
+stefan.haslinger@informatom.com
+
+---
+# Was zuletzt geschah
+
+Octopod
+
+= Ruby + Jekyll + Plugin
+
+= Static Site Generator für Podcasting Websites
+
+Demo: https://www.panoptikum.io/
+
+ein paar kleinere Updates eingemeldet => keine Reaktion
+---
+# Idee zu einem neuen Podcast
+
+Thema: Programmieren und Programmieren lernen
+
+Titel: Aua - Uff - Code!
+
+in Anlehnung an Hour Of Code
+
+Podcasting: Anna Geiger und Stefan Haslinger
+
+WWW: https://aua-uff-co.de
+
+---
+# Was seitdem geschah
+
+Fork (ist nicht böse)
+
+Reintegration von Octopod in das Site Template
+
+Update der verwendeten Komponenten
+* Bootstrap => 3.3.0
+* Bootflat Template
+* Podlove Webplayer => 3.0 (aua! - Frames, Chromium)
+* https-kompatibel (uff!)
+* Installation und Redirekt von http zu https
+---
+
+# Was sonst noch geschah
+
+* Einmelden bei Itunes (aua! aua!)
+  * bei Apple Podcast Connect https://podcastsconnect.apple.com
+* Feed validieren: https://validator.w3.org/feed/ (aua!)
+* Simple chapters (uff!)
+* https-Feed => http
+* https-Logos und Episoden => http
+
+---
+# Reaktivieren von http
+
+```bash
+<VirtualHost *:80>
+  ServerName aua-uff-co.de
+  ServerAlias www.aua-uff-co.de
+
+  DocumentRoot /var/www/aua-uff-co.de/
+  DirectoryIndex index.html
+  <Directory /var/www/aua-uff-co.de/>
+    Allow from all
+  </Directory>
+
+  #  Redirect permanent / https://aua-uff-co.de/
+
+  RewriteEngine on
+  RewriteCond %{REQUEST_URI} !\.mp3$
+  RewriteCond %{REQUEST_URI} !\.jpg$
+  RewriteCond %{REQUEST_URI} !\.rss$
+  RewriteRule (.*) https://aua-uff-co.de$1 [R=301,L]
+</VirtualHost>
+```
+</VirtualHost>
+---
+# Status
+
+* mehrere Feeds (mp3, m4a, ogg)
+* Itunes-kompatibler Feed
+* Podlove Webplayer
+* Flattr-Integration
+* Twitter Integration
+* Bootstrap kompatibel
+* Bootflat Theme
+* Problemloser Download in Beyondpod
+* Podlove Simple Chapters im Webplayer und im Feed
+* Shownotes im Feed (aber kein Webplayer)
+
+---
+# Zukunft
+
+* Extraktion in ein Jekyll-Plugin
+* Kontaktaufnahme mit Github
+* Einmelden als Jekyll Plugin bei Github
+* lokale Suche
+
+---
+# Danke!
+
+Podcast: https://aua-uff-co.de
+
+Twitter: https://twitter.com/AuaUffCode @AuaUffCode
+
+Github: https://github.com/aua-uff-code/aua-uff-co.de
+
+diese Folien: https://aua-uff-co.de/podcasting-meetup.html

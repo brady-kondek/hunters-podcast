@@ -1,0 +1,214 @@
+---
+layout: presentation
+title: Feeeeds!
+permalink: /feeds/
+talk: 4
+---
+# Was sollte in Feeds enthalten sein ?
+
+
+### Wozu?
+
+... für Podcatcher und Podcast Publishing Plattformen:
+
+* [Itunes](https://www.apple.com/at/itunes/)
+* [Fyyd.de](https://fyyd.de/)
+* [Gpodder](https://gpodder.net/)
+* [Bitlove](https://bitlove.org/)
+* [Panoptikum](https://panoptikum.io/)
+
+TL;DR: Ein Validierungsservice verwenden!<br/>
+https://validator.w3.org/feed/
+
+---
+``` xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:bitlove="http://bitlove.org"
+     xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:psc="http://podlove.org/simple-chapters"
+     version="2.0">
+
+  <channel>
+    <title>Aua-uff-Code!</title>
+    <link>https://aua-uff-co.de</link>
+```
+---
+in `<channel>`
+```xml
+<atom:link href="https://aua-uff-co.de/episodes.opus.rss2"
+           rel="self" type="application/rss+xml"
+           title="opus Episode RSS-Feed"/>
+
+<atom:link href="https://aua-uff-co.de/episodes.opus.rss"
+           rel="first"
+           type="application/rss+xml" />
+
+<atom:link href="https://aua-uff-co.de/episodes3.opus.rss"
+           rel="last"
+           type="application/rss+xml" />
+
+<atom:link href="https://aua-uff-co.de/episodes3.opus.rss"
+           rel="next"
+           type="application/rss+xml" />
+
+<atom:link href="https://aua-uff-co.de/episodes.opus.rss"
+           rel="prev"
+           type="application/rss+xml" />
+```
+---
+in `<channel>`
+```xml
+<description>Ein Podcast, mit dem zwei Lernende ihre Erfahrungen beim⤶
+Lernen teilen.</description>
+<!-- ⤶ ist das Zeilenfortsetzungszeichen, -->
+<!--    Umbruch nur für die Lesbarkeit der Slides -->
+
+
+<lastBuildDate>Mon, 27 Mar 2017 15:08:09 +0200</lastBuildDate>
+<!-- (RFC1123) -->
+
+<language>de</language>
+
+<generator>Jekyll-Octopod 0.8.6</generator>
+
+<itunes:summary>Ein Podcast, mit dem zwei Lernende ihre Erfahrungen⤶
+beim Lernen teilen.</itunes:summary>
+
+<itunes:author>Matthias Bendel &amp; Stefan Haslinger</itunes:author>
+<!-- & < > sind als &amp; &lt; &gt; zu schreiben -->
+
+<itunes:explicit>no</itunes:explicit>
+
+<itunes:image href="https://aua-uff-co.de/img/logo-itunes.jpg" />
+```
+---
+in `<channel>`
+```xml
+<itunes:owner>
+  <itunes:name>Matthias Bendel und Stefan Haslinger</itunes:name>
+  <itunes:email>stefan.haslinger@mittenin.at</itunes:email>
+</itunes:owner>
+
+<managingEditor>stefan.haslinger@mittenin.at (Matthias Bendel⤶
+                und Stefan Haslinger)</managingEditor>
+
+<copyright>CC BY-NC-SA 3.0</copyright>
+<itunes:subtitle>Programmieren und Programmieren⤶
+                 lernen</itunes:subtitle>
+<itunes:keywords>code, programmieren, podcast</itunes:keywords>
+```
+---
+in `<channel>`
+```xml
+<image>
+  <title>Aua-uff-Code!</title>
+  <url>https://aua-uff-co.de/img/logo-itunes.jpg</url>
+  <link>https://aua-uff-co.de</link>
+</image>
+
+<itunes:category text="Technology"></itunes:category>
+
+<itunes:category text="Society &amp; Culture">
+  <itunes:category text="History"></itunes:category>
+</itunes:category>
+```
+---
+in `<channel>`
+```xml
+<item>
+  <title>Episode 21 - Podcasten</title>
+
+  <link>https://aua-uff-co.de/2017/03/27/episode21.html</link>
+
+  <atom:link rel="http://podlove.org/deep-link"
+             href="https://aua-uff-co.de/players/episode21"/>
+
+  <comments>https://aua-uff-co.de/2017/03/27/⤶
+            episode21.html#disqus_thread</comments>
+
+  <pubDate>Mon, 27 Mar 2017 00:00:00 +0200</pubDate>
+
+  <guid isPermaLink="false">https://aua-uff-co.de/⤶
+                            2017/03/27/episode21.html</guid>
+```
+---
+in `<item>`
+```xml
+<description>
+  <![CDATA[  <!-- stands for: character data -->
+      <h2 id="show-notes-und-links">Show Notes und Links</h2>
+      im HTML - Format ...
+      ... eine getrennte Beschreibung wäre sinnvoll.
+    ]]>
+</description>
+
+<content:encoded>
+  <![CDATA[
+    <h2 id="show-notes-und-links">Show Notes und Links</h2>
+    im HTML - Format ...
+  ]]>
+</content:encoded>
+```
+---
+in `<item>`
+```xml
+<enclosure url="https://aua-uff-co.de/episodes/episode21.opus"
+           length="64876209"
+           type="audio/ogg; codecs=opus"
+           guid="4dd10d923f315de80f3cf9b0c3720ac7" />
+
+<itunes:keywords></itunes:keywords>
+<itunes:subtitle>Podcasten</itunes:subtitle>
+<itunes:summary>Angelika stellt ihren Podcast ⤶
+                "Von Drama zu Karma" vor</itunes:summary>
+<itunes:author>Angelika und Stefan</itunes:author>
+<itunes:explicit>no</itunes:explicit>
+```
+---
+in `<item>`
+```xml
+<itunes:duration>01:18:08</itunes:duration>
+<!-- hh:mm:ss -->
+<atom:link rel="payment"
+           href="https://flattr.com/submit/auto?⤶
+                url=https%3A%2F%2Faua-uff-co.de%2F2017%2F03%2F27%2⤶
+                Fepisode21.html&amp;user_id=informatom"
+           type="text/html" />
+<!-- Links müssen url-encodiert werden -->
+
+<psc:chapters version="1.1"
+              xmlns:psc="http://podlove.org/simple-chapters">
+  <psc:chapter start="00:00:31.000"
+               title="Begrüßung and Motivation" />
+</psc:chapters>
+```
+---
+in `<item>`
+```xml
+      <atom:contributor>
+        <atom:name>Stefan Haslinger</atom:name>
+        <atom:uri>https://panoptikum.io/informatom</atom:uri>
+        <atom:email>stefan@aua-uff-co.de</atom:email>
+      </atom:contributor>
+
+      <atom:contributor>
+        <atom:name>Angelika Ployer</atom:name>
+        <atom:uri>https://www.yogicmind.at/</atom:uri>
+        <atom:email>a.ployer@yogicmind.at</atom:email>
+      </atom:contributor>
+
+    </item>
+  </channel>
+</rss>
+```
+---
+class: center, middle
+
+# Fragen?
+
+<stefan@aua-uff-co.de>
+
+Diese Slides gibt es online: <br/>
+[https://aua-uff-co.de/talks/feeds](https://aua-uff-co.de/feeds)

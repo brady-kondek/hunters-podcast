@@ -1,0 +1,182 @@
+---
+title: Vienna.html-Meetup
+layout: presentation
+permalink: /vienna/
+talk: 2
+---
+class: center, middle
+
+# Jekyll - Podcasting
+
+Talk at Vienna.html -Meetup: April 26th 2016
+
+@informatom
+
+stefan.haslinger@informatom.com
+
+former podcast: Layer 8<br/>
+contributing to: Biertaucher Podcast http://biertaucher.at<br/>
+new podcast: Aua-Uff-Code! https://aua-uff-co.de
+
+Interrupt me, whenever you want!
+
+---
+# Podcasting
+
+* = Netcasting
+* Publishing (site, feeds, iTunes)
+* Ruby
+* Wrote several Rails based CMSs
+* Feeds
+* (Podlove) Webplayer
+
+---
+# What Happend until February
+
+Octopod (abandoned 2013, but still working)
+
+= Ruby + Jekyll + Plugin
+
+= Static Site Generator für Podcasting Websites
+
+Demo: https://www.panoptikum.io/
+
+PR'ed some smaller Fixes  => no reaction
+
+---
+# Idea for a New Podcast (in German)
+
+Topic: Programming and learning to program
+
+Title: Aua - Uff - Code!
+
+refering to Hour Of Code https://hourofcode.com
+
+Podcasters: Anna Geiger und Stefan Haslinger
+
+WWW: https://aua-uff-co.de
+
+---
+# What Happend until then?
+
+Forked Octopod (is not evil)
+
+Reintegration of Octopod into the site template
+
+Update of components used
+* Bootstrap => 3.3.0
+* Bootflat template
+* Podlove Webplayer => 3.0 (aua! - Frames, Chromium)
+* Generator for creating player-pages
+* https-compatible (uff!)
+* Installation and redirect from http to https requests
+---
+
+# What Happend else?
+
+* Publishing at iTunes (aua! aua!)
+  * via Apple Podcast Connect https://podcastsconnect.apple.com
+* Validate feed: https://validator.w3.org/feed/ (aua!)
+* Simple chapters (uff!)
+* https-Feed => http
+* https-logos and episodes => http
+* 2 episodes published, 1 in the tin, 1 to be recorded tomorrow
+
+---
+# Reactivating of http
+
+```bash
+<VirtualHost *:80>
+  ServerName aua-uff-co.de
+  ServerAlias www.aua-uff-co.de
+
+  DocumentRoot /var/www/aua-uff-co.de/
+  DirectoryIndex index.html
+  <Directory /var/www/aua-uff-co.de/>
+    Allow from all
+  </Directory>
+
+  #  Redirect permanent / https://aua-uff-co.de/
+
+  RewriteEngine on
+  RewriteCond %{REQUEST_URI} !\.mp3$
+  RewriteCond %{REQUEST_URI} !\.jpg$
+  RewriteCond %{REQUEST_URI} !\.rss$
+  RewriteRule (.*) https://aua-uff-co.de$1 [R=301,L]
+</VirtualHost>
+```
+</VirtualHost>
+
+---
+# State of the Union
+
+* several feeds (mp3, m4a, ogg)
+* Itunes compatible feed
+* Podlove Webplayer
+* Flattr integration
+* Twitter integration
+* Bootstrap compatible
+* Bootflat theme
+* Google search
+* Download without any issues in Beyondpod (and Antennapod)
+* Podlove Simple Chapters in web player and in feed
+* Shownotes in feed (but no web player)
+
+---
+# Demo!
+
+---
+# Bonus: Log Analysis
+
+* using Goaccess
+
+```bash
+rsync -v stefan@mittenin.at:/var/log/apache2/other_vhosts_access* .
+copy * filter
+cd filter
+gunzip *.gz
+ruby -i -ne 'print if /aua-uff-co.de/' other_vhosts_access.log*
+find . -size  0 -print0 |xargs -0 rm
+zcat -f other* | goaccess -a > report.html
+```
+
+* Published: https://aua-uff-co.de/report.html
+
+---
+# Future
+
+* re extraction into a jekyll plugin
+* contacting Github
+* publishing as a Jekyll plugin at Github
+* local search
+
+---
+# How to Start with Podcasting
+
+* Find a topic
+* Find a partner in crime
+* Record a first episode on your Smartphone
+* or buy a Zoom H1 for ~ 100 EUR
+* Publish!
+
+---
+# Join the Community!
+
+* Podcast with us at the Biertaucher Podcast
+* http://biertaucher.at
+* Twitter: @biertaucherAT
+
+* Podcasting Meetup Vienna
+* Twitter: @podcasterei
+* Meetup: http://www.meetup.com/de-DE/Podcasting-Meetup-Osterreich/
+
+---
+# Thanks!
+
+Podcast: https://aua-uff-co.de
+
+Twitter: https://twitter.com/AuaUffCode @AuaUffCode
+
+Github: https://github.com/aua-uff-code/aua-uff-co.de
+
+these slides: https://aua-uff-co.de/vienna.html
